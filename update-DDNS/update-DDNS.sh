@@ -53,3 +53,6 @@ DYNUAPIURL="https://api.dynu.com/nic/update?hostname=$DOMAIN&myip=$LOCAL_IP&myip
 DYNU_UPDATE_REPLY=`wget $DYNUAPIURL -O - -q ; echo`
 echo "Previous IPs: $DNS_IP, $DNS_IP6 & Current IPs: $LOCAL_IP, $LOCAL_IP6" >> $LOGFILE
 echo "$DYNU_UPDATE_REPLY" >> $LOGFILE
+
+#trunc log
+sed -i '50001,$ d' $LOGFILE
