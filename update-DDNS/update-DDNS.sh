@@ -8,10 +8,10 @@ NETINTERFACE="eth0"        #manually select interface
 PASSWORD=$2
 
 ##try a couple ip retrieve sites
-LOCAL_IP=`curl -s ipecho.net | grep -o "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"`
+LOCAL_IP=`curl -s --ipv4 ipecho.net | grep -o "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"`
 if test -z "$LOCAL_IP"
 then
-    LOCAL_IP=`curl -s myexternalip.com/raw | grep -o "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"`
+    LOCAL_IP=`curl -s --ipv4 myexternalip.com/raw | grep -o "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"`
     if test -z "$LOCAL_IP"
     then
         echo "`date "+%m-%d-%Y %T"`: Couldn't retrieve public ipv4 address!" >> $LOGFILE
@@ -56,4 +56,5 @@ echo "`date "+%m-%d-%Y %T"`: Dynu Server reply
                     $DYNU_UPDATE_REPLY" >> $LOGFILE
 
 #trunc log
-sed -i '50001,$ d' $LOGFILE
+##sed -i '50001,$ d' $LOGFILE
+tail -n 50001 $LOGFILE > $LOGFILE
