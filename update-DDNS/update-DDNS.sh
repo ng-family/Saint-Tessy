@@ -38,7 +38,7 @@ else
 fi
 if [ "$DNS_IP" == "$LOCAL_IP" ]; then
     echo "IPv4 IPs match"
-    if [ "$DNS_IP6" == "$LOCAL_IP6" ]; then
+    if [[ "$LOCAL_IP6" =~ "$DNS_IP6" ]]; then
         echo "IPv6 IPs match"
         echo "`date "+%m-%d-%Y %T"`: IPs match, No update required!" >> $LOGFILE
         exit
