@@ -19,12 +19,18 @@ then
     fi
 fi
 LOCAL_IP6=$(ip addr show $NETINTERFACE | awk '/inet6/ && ! /fe80|host/ && ! /deprecated/ { print $2 }' | awk -F"/" '{print $1}')
-
+if [[ $LOCAL_IP6 == *" does not exist"* ]]; then
+        echo "`date "+%m-%d-%Y %T"`: $NETINTERFACE does not exist." >> $LOGFILE
+        exit
+fi
 ##check if IP has changed
 DNS_IP_REPLY=`host $DOMAIN 1.1.1.1`
 DNS_IP=`echo $DNS_IP_REPLY | grep -o "address [0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*" | awk '{print $2}'`
 DNS_IP6=`echo $DNS_IP_REPLY | grep -o "IPv6 address .*" | awk '{print $3}'`
 
+echo "`date "+%m-%d-%Y %T"`: VERBOSE IP Varibales
+                     [Previous IPs: $DNS_IP, $DNS_IP6]
+                     [Current IPs: $LOCAL_IP, $LOCAL_IP6]" >> $LOGFILE
 if test -z "$DNS_IP"
 then
     echo "`date "+%m-%d-%Y %T"`: Couldn't retrieve DNS A record" >> $LOGFILE
