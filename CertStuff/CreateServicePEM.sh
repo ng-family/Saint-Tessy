@@ -16,7 +16,7 @@ C = US
 ST = NM
 L = ABQ
 O = NG Family
-OU = ngfamilyserver
+OU = ngfamilyservice
 
 [ v3_ext ]
 subjectAltName = @alt_names
