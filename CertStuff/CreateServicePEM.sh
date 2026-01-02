@@ -31,8 +31,7 @@ EOF
 openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -nodes -keyout $HOSTSVR.key -out $HOSTSVR.csr -config $HOSTSVR.conf
 
 #Sign CSR
-openssl x509 -req -in $HOSTSVR.csr -CA $CACRT -CAkey $CAKEY -CAcreateserial -out $HOSTSVR.crt -days 365 -sha
-256 -extfile $HOSTSVR.conf -extensions v3_ext
+openssl x509 -req -in $HOSTSVR.csr -CA $CACRT -CAkey $CAKEY -CAcreateserial -out $HOSTSVR.crt -days 365 -sha256 -extfile $HOSTSVR.conf -extensions v3_ext
 
 #Combine to create pem file
 cat $HOSTSVR.key $HOSTSVR.crt | tee $HOSTSVR.pem
