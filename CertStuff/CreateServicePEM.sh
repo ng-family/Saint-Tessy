@@ -17,6 +17,7 @@ ST = NM
 L = ABQ
 O = NG Family
 OU = ngfamilyservice
+CN = $HOSTSVR.ngfamily.lan
 
 [ v3_ext ]
 subjectAltName = @alt_names
