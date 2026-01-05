@@ -1,3 +1,5 @@
+#!/bin/bash
+
 CAname=<DomainName>
 #Maybe in the future I should include a conf file to automate the prompts but I only run this once every 5 years.
 

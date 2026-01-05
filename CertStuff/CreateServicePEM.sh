@@ -1,3 +1,5 @@
+#!/bin/bash
+
 HOSTSVR=<hostname>
 HOSTIP=<mgmtIP>
 CACRT=<pathToCRT>
