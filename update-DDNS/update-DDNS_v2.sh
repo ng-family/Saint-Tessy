@@ -15,13 +15,13 @@ CLOUDFLAREPASS=$4
 LOCAL_IP=`curl -4 --max-time 2 -s https://ipv4.whatismyip.akamai.com/`
 if test -z "$LOCAL_IP"
 then
-	echo "`date "+%m-%d-%Y %T"`: Couldn't retrieve public ipv4 address!" | tee -a $LOGFILE
+	echo "`date "+%m-%d-%Y %T"`: Couldn't retrieve public ipv4 address!" >> $LOGFILE
 	exit
 fi
 LOCAL_IPV6=`curl -6 --max-time 2 -s https://ipv6.whatismyip.akamai.com/`
 if test -z "$LOCAL_IP"
 then
-	echo "`date "+%m-%d-%Y %T"`: Couldn't retrieve public ipv6 address!" | tee -a $LOGFILE
+	echo "`date "+%m-%d-%Y %T"`: Couldn't retrieve public ipv6 address!" >> $LOGFILE
 	exit
 fi
 
@@ -34,12 +34,12 @@ UPDATEREQ=1
 
 if test -z "$DNS_IP"
 then
-    echo "`date "+%m-%d-%Y %T"`: Couldn't retrieve DNS A record" | tee -a $LOGFILE
+    echo "`date "+%m-%d-%Y %T"`: Couldn't retrieve DNS A record" >> $LOGFILE
     UPDATEREQ=0
 else
     if test -z "$DNS_IP6"
     then
-        echo "`date "+%m-%d-%Y %T"`: Couldn't retrieve DNS AAA record" | tee -a $LOGFILE
+        echo "`date "+%m-%d-%Y %T"`: Couldn't retrieve DNS AAA record" >> $LOGFILE
         UPDATEREQ=0
     fi
 fi
@@ -53,7 +53,7 @@ if [ "$UPDATEREQ" -eq 1 ]; then
         echo "IPv4 IPs match"
         if [[ "$LOCAL_IP6" =~ "$DNS_IP6" ]]; then
             echo "IPv6 IPs match"
-            echo "`date "+%m-%d-%Y %T"`: IPs match, No update required for dynu!" | tee -a $LOGFILE
+            echo "`date "+%m-%d-%Y %T"`: IPs match, No update required for dynu!" >> $LOGFILE
             UPDATEREQ=0
         fi
     fi
@@ -63,11 +63,11 @@ if [ "$UPDATEREQ" -eq 1 ]; then
     #Update DYNU
 	echo "`date "+%m-%d-%Y %T"`: IPs mismatched
     	[Previous IPs: $DNS_IP, $DNS_IP6]
-    	[Current IPs: $LOCAL_IP, $LOCAL_IP6]" | tee -a $LOGFILE
+    	[Current IPs: $LOCAL_IP, $LOCAL_IP6]" >> $LOGFILE
 	DYNUAPIURL="https://api.dynu.com/nic/update?hostname=$DYNUDOMAIN&myip=$LOCAL_IP&myipv6=$LOCAL_IP6&password=$DYNUPASS"
 	DYNU_UPDATE_REPLY=`wget $DYNUAPIURL -O - -q ; echo`
 	echo "`date "+%m-%d-%Y %T"`: Dynu Server reply
-    $DYNU_UPDATE_REPLY" | tee -a $LOGFILE
+    $DYNU_UPDATE_REPLY" >> $LOGFILE
 fi
 
 # TODO#Check if CLOUDFLARE IP addresses have changed
